@@ -1,0 +1,7 @@
+org.easyrules.annotation
+org.easyrules.api
+org.easyrules.core
+org.easyrules.jmx
+org.easyrules.jmx.api
+org.easyrules.jmx.util
+org.easyrules.util

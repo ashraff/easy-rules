@@ -39,6 +39,9 @@
   <li class="current">
     <a href="http://www.easyrules.org/about/overview.html">Documentation</a>
   </li>
+    <li>
+        <a target="_blank" href="http://www.easyrules.org/apidocs/">API docs</a>
+    </li>
   <li>
     <a target="_blank" href="https://github.com/benas/easy-rules">View on GitHub</a>
   </li>
@@ -68,8 +71,28 @@
 
 <h2 id="part-1-:-implementing-the-business-rule">Part 1 : Implementing the business rule</h2>
 
-<p>In this application, orders and customers are represented by the <em>Order</em> and <em>Customer</em> classes.</p>
+<p>In this application, orders and customers are represented by the <em>Order</em> and <em>Customer</em> classes:</p>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">class</span> <span class="nc">Order</span> <span class="o">{</span>
 
+    <span class="kd">private</span> <span class="kt">long</span> <span class="n">orderId</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="kt">float</span> <span class="n">amount</span><span class="o">;</span>
+
+    <span class="c1">//getters and setters</span>
+
+<span class="o">}</span>
+</code></pre></div>
+<p><br/></p>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">class</span> <span class="nc">Customer</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kt">long</span> <span class="n">customerId</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="kt">boolean</span> <span class="n">isNew</span><span class="o">;</span>
+
+    <span class="c1">//getters and setters</span>
+
+<span class="o">}</span>
+</code></pre></div>
 <p>First, let&#39;s implement the rule&#39;s logic by extending the <code>BasicRule</code> class:</p>
 <div class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SuspectOrderRule</span> <span class="kd">extends</span> <span class="n">BasicRule</span> <span class="o">{</span>
 
@@ -95,7 +118,7 @@
                 <span class="n">customer</span><span class="o">.</span><span class="na">getCustomerId</span><span class="o">(),</span> <span class="n">order</span><span class="o">.</span><span class="na">getOrderId</span><span class="o">(),</span> <span class="n">order</span><span class="o">.</span><span class="na">getAmount</span><span class="o">(),</span> <span class="n">suspectOrderAmountThreshold</span><span class="o">);</span>
     <span class="o">}</span>
 
-    <span class="c1">// getters and setters for customer and order fields omitted</span>
+    <span class="c1">// getters and setters for customer and order fields</span>
 
 <span class="o">}</span>
 </code></pre></div>
@@ -152,7 +175,7 @@
 
 <p>In this tutorial, we need to expose the order amount threshold as a JMX attribute. So first, let&#39;s define an interface that allows us to change order amount threshold via JMX:</p>
 <div class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@javax.management.MXBean</span>
-<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">SuspectOrderJmxRule</span> <span class="kd">extends</span> <span class="n">Rule</span> <span class="o">{</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">SuspectOrderJmxRule</span> <span class="kd">extends</span> <span class="n">JMXRule</span> <span class="o">{</span>
 
     <span class="cm">/**</span>
 <span class="cm">     * Get the current suspect order amount threshold</span>
@@ -331,11 +354,12 @@
   <footer>
   <div class="grid">
     <div class="unit one-third center-on-mobiles">
-      <p>Project created and maintained by <a target="_blank" href="http://www.mahmoudbenhassine.com">Mahmoud Ben Hassine</a>.</p>
+      <p>Project created and maintained by <a target="_blank" href="http://www.mahmoud-benhassine.fr">Mahmoud Ben Hassine</a>
+          and the <a href="https://github.com/benas/easy-rules#awesome-contributors" target="_blank">awesome contributors</a>.</p>
     </div>
     <div class="unit two-thirds align-right center-on-mobiles">
-      <p>
-        Inspired by and built with <a target="_blank" href="http://jekyllrb.com">Jekyll</a>. Hosted on <a target="_blank" href="https://github.com">Github</a>.
+      <p>Easy Rules is released under the terms of the <a href="http://opensource.org/licenses/mit-license.php/" target="_blank">MIT license</a>.<br/>
+          This website is inspired by and built with <a target="_blank" href="http://jekyllrb.com">Jekyll</a>.
       </p>
 
     </div>

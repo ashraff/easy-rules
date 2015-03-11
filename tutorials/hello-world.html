@@ -39,6 +39,9 @@
   <li class="current">
     <a href="http://www.easyrules.org/about/overview.html">Documentation</a>
   </li>
+    <li>
+        <a target="_blank" href="http://www.easyrules.org/apidocs/">API docs</a>
+    </li>
   <li>
     <a target="_blank" href="https://github.com/benas/easy-rules">View on GitHub</a>
   </li>
@@ -96,7 +99,7 @@
 
 <span class="o">}</span>
 </code></pre></div>
-<p>Then, we have to register an instance of this rule to an Easy Rules engine and launch the program with the following class :</p>
+<p>Then, we have to register an instance of this rule in a Easy Rules engine and launch the program with the following class :</p>
 <div class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">HelloWorldSampleLauncher</span> <span class="o">{</span>
 
     <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
@@ -139,10 +142,8 @@
 <p>If you run this tutorial, you would get the following output:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">Are you a friend of duke? [yes/no]:
 yes
-10 sep. 2014 13:26:19 org.easyrules.core.DefaultRulesEngine fireRules
 INFO: Rule &#39;Hello World rule&#39; triggered.
 Hello duke&#39;s friend!
-10 sep. 2014 13:26:19 org.easyrules.core.DefaultRulesEngine fireRules
 INFO: Rule &#39;Hello World rule&#39; performed successfully.
 </code></pre></div>
           <div class="section-nav">
@@ -237,11 +238,12 @@ INFO: Rule &#39;Hello World rule&#39; performed successfully.
   <footer>
   <div class="grid">
     <div class="unit one-third center-on-mobiles">
-      <p>Project created and maintained by <a target="_blank" href="http://www.mahmoudbenhassine.com">Mahmoud Ben Hassine</a>.</p>
+      <p>Project created and maintained by <a target="_blank" href="http://www.mahmoud-benhassine.fr">Mahmoud Ben Hassine</a>
+          and the <a href="https://github.com/benas/easy-rules#awesome-contributors" target="_blank">awesome contributors</a>.</p>
     </div>
     <div class="unit two-thirds align-right center-on-mobiles">
-      <p>
-        Inspired by and built with <a target="_blank" href="http://jekyllrb.com">Jekyll</a>. Hosted on <a target="_blank" href="https://github.com">Github</a>.
+      <p>Easy Rules is released under the terms of the <a href="http://opensource.org/licenses/mit-license.php/" target="_blank">MIT license</a>.<br/>
+          This website is inspired by and built with <a target="_blank" href="http://jekyllrb.com">Jekyll</a>.
       </p>
 
     </div>

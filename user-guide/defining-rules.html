@@ -39,6 +39,9 @@
   <li class="current">
     <a href="http://www.easyrules.org/about/overview.html">Documentation</a>
   </li>
+    <li>
+        <a target="_blank" href="http://www.easyrules.org/apidocs/">API docs</a>
+    </li>
   <li>
     <a target="_blank" href="https://github.com/benas/easy-rules">View on GitHub</a>
   </li>
@@ -111,14 +114,19 @@ defined in the <code>Rule</code> interface. You can extends this class and overr
     <span class="kd">private</span> <span class="n">BusinessData</span> <span class="n">myBusinessData</span><span class="o">;</span> <span class="c1">//data to operate on</span>
 
     <span class="nd">@Condition</span>
-    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">checkConditions</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">when</span><span class="o">()</span> <span class="o">{</span>
         <span class="c1">//my rule conditions</span>
         <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
     <span class="o">}</span>
 
-    <span class="nd">@Action</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">performActions</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+    <span class="nd">@Action</span><span class="o">(</span><span class="n">order</span> <span class="o">=</span> <span class="mi">1</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">then</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
         <span class="c1">//my actions</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Action</span><span class="o">(</span><span class="n">order</span> <span class="o">=</span> <span class="mi">2</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">finally</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+        <span class="c1">//my final actions</span>
     <span class="o">}</span>
 
 <span class="o">}</span>
@@ -136,14 +144,14 @@ respectively.</p>
 
 <p>Easy Rules allows you to create complex rules from primitive ones. A <code>CompositeRule</code> is composed of a set of rules.</p>
 
-<p>This is typically an implementation of the <a href="http://en.wikipedia.org/wiki/Composite_pattern">composite design pattern</a>.</p>
+<p>This is typically an implementation of the <a href="http://en.wikipedia.org/wiki/Composite_pattern" target="_blank">composite design pattern</a>.</p>
 
-<p>A composite rule is triggered if <em>all</em> conditions of its composing rules are satisfied.
-When a composite rule is applied, actions of <em>all</em> composing rules are performed in the natural order of
+<p>A composite rule is triggered if <strong><em>all</em></strong> conditions of its composing rules are satisfied.
+When a composite rule is applied, actions of <strong><em>all</em></strong> composing rules are performed in the natural order of
 rules which is rules priorities by default.</p>
 
 <p>To create a composite rule from two primitive rules, you can use the following snippet:</p>
-<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="c1">//Create the composite rule from two primitive rules</span>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="c1">//Create a composite rule from two primitive rules</span>
 <span class="n">CompositeRule</span> <span class="n">myCompositeRule</span> <span class="o">=</span>
     <span class="k">new</span> <span class="nf">CompositeRule</span><span class="o">(</span><span class="s">&quot;myCompositeRule&quot;</span><span class="o">,</span> <span class="s">&quot;a composite rule&quot;</span><span class="o">);</span>
 <span class="n">myCompositeRule</span><span class="o">.</span><span class="na">addRule</span><span class="o">(</span><span class="n">myRule1</span><span class="o">);</span>
@@ -258,11 +266,12 @@ This method must be public, have no arguments and return an Integer type</p></li
   <footer>
   <div class="grid">
     <div class="unit one-third center-on-mobiles">
-      <p>Project created and maintained by <a target="_blank" href="http://www.mahmoudbenhassine.com">Mahmoud Ben Hassine</a>.</p>
+      <p>Project created and maintained by <a target="_blank" href="http://www.mahmoud-benhassine.fr">Mahmoud Ben Hassine</a>
+          and the <a href="https://github.com/benas/easy-rules#awesome-contributors" target="_blank">awesome contributors</a>.</p>
     </div>
     <div class="unit two-thirds align-right center-on-mobiles">
-      <p>
-        Inspired by and built with <a target="_blank" href="http://jekyllrb.com">Jekyll</a>. Hosted on <a target="_blank" href="https://github.com">Github</a>.
+      <p>Easy Rules is released under the terms of the <a href="http://opensource.org/licenses/mit-license.php/" target="_blank">MIT license</a>.<br/>
+          This website is inspired by and built with <a target="_blank" href="http://jekyllrb.com">Jekyll</a>.
       </p>
 
     </div>

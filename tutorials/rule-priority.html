@@ -39,6 +39,9 @@
   <li class="current">
     <a href="http://www.easyrules.org/about/overview.html">Documentation</a>
   </li>
+    <li>
+        <a target="_blank" href="http://www.easyrules.org/apidocs/">API docs</a>
+    </li>
   <li>
     <a target="_blank" href="https://github.com/benas/easy-rules">View on GitHub</a>
   </li>
@@ -123,7 +126,7 @@ and must deny children from buying alcohol. Customers are represented by the fol
 
 <p>Finally, the <code>getPriority</code> method annotated with <code>@Priority</code> tells Easy Rules engine to fire this rule in first order.</p>
 
-<p>Now, let&#39;s a class for rule 2:</p>
+<p>Now, let&#39;s create a class for rule 2:</p>
 <div class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Rule</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;alcoholRule&quot;</span><span class="o">,</span>
       <span class="n">description</span> <span class="o">=</span> <span class="s">&quot;Children are not allowed to buy alcohol.&quot;</span><span class="o">)</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">AlcoholRule</span> <span class="o">{</span>
@@ -188,13 +191,11 @@ and must deny children from buying alcohol. Customers are represented by the fol
 
 <p>If you run this tutorial, you would get the following output:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">Tom: Hi! can I have some Vodka please?
-Oct 13, 2014 9:37:14 PM org.easyrules.core.AnnotatedRulesEngine fireRules
 INFO: Rule alcoholRule triggered.
 Sorry Tom, you are not allowed to buy alcohol.
-Oct 13, 2014 9:37:14 PM org.easyrules.core.AnnotatedRulesEngine fireRules
 INFO: Rule alcoholRule performed successfully.
 </code></pre></div>
-<p>As you can see, since Tom&#39;s age is under 18, he has not been allowed to buy alcohol as expected.</p>
+<p>As expected, since Tom&#39;s age is under 18, he has not been allowed to buy alcohol.</p>
 
           <div class="section-nav">
   <div class="left align-right">
@@ -288,11 +289,12 @@ INFO: Rule alcoholRule performed successfully.
   <footer>
   <div class="grid">
     <div class="unit one-third center-on-mobiles">
-      <p>Project created and maintained by <a target="_blank" href="http://www.mahmoudbenhassine.com">Mahmoud Ben Hassine</a>.</p>
+      <p>Project created and maintained by <a target="_blank" href="http://www.mahmoud-benhassine.fr">Mahmoud Ben Hassine</a>
+          and the <a href="https://github.com/benas/easy-rules#awesome-contributors" target="_blank">awesome contributors</a>.</p>
     </div>
     <div class="unit two-thirds align-right center-on-mobiles">
-      <p>
-        Inspired by and built with <a target="_blank" href="http://jekyllrb.com">Jekyll</a>. Hosted on <a target="_blank" href="https://github.com">Github</a>.
+      <p>Easy Rules is released under the terms of the <a href="http://opensource.org/licenses/mit-license.php/" target="_blank">MIT license</a>.<br/>
+          This website is inspired by and built with <a target="_blank" href="http://jekyllrb.com">Jekyll</a>.
       </p>
 
     </div>

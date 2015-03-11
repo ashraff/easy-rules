@@ -39,6 +39,9 @@
   <li class="current">
     <a href="http://www.easyrules.org/about/overview.html">Documentation</a>
   </li>
+    <li>
+        <a target="_blank" href="http://www.easyrules.org/apidocs/">API docs</a>
+    </li>
   <li>
     <a target="_blank" href="https://github.com/benas/easy-rules">View on GitHub</a>
   </li>
@@ -59,8 +62,17 @@
 
 <p>Thanks to JMX, Easy Rules can expose rules attributes to be managed via any JMX compliant client.</p>
 
-<p>To make your rule manageable via JMX, you can register it in Easy Rules engine as a JMX managed rule:</p>
-<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">RulesEngine</span> <span class="n">rulesEngine</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">DefaultRulesEngine</span><span class="o">();</span>
+<p>To make your rule manageable via JMX, first you need to add the following dependency to your <strong><em>pom.xml</em></strong>:</p>
+<div class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;dependencies&gt;</span>
+    <span class="nt">&lt;dependency&gt;</span>
+        <span class="nt">&lt;groupId&gt;</span>org.easyrules<span class="nt">&lt;/groupId&gt;</span>
+        <span class="nt">&lt;artifactId&gt;</span>easyrules-jmx<span class="nt">&lt;/artifactId&gt;</span>
+        <span class="nt">&lt;version&gt;</span>1.3.0<span class="nt">&lt;/version&gt;</span>
+    <span class="nt">&lt;/dependency&gt;</span>
+<span class="nt">&lt;/dependencies&gt;</span>
+</code></pre></div>
+<p>Then, you can register it in Easy Rules engine as a JMX managed rule:</p>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">JMXRulesEngine</span> <span class="n">rulesEngine</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">DefaultJMXRulesEngine</span><span class="o">();</span>
 <span class="n">rulesEngine</span><span class="o">.</span><span class="na">registerJmxRule</span><span class="o">(</span><span class="n">myRule</span><span class="o">);</span>
 </code></pre></div>
 <p>This will register your rule as a JMX managed bean with the following object name:</p>
@@ -68,7 +80,7 @@
 <p><code>org.easyrules.core.jmx:type=YourRuleClassName,name=YourRuleName</code></p>
 
 <p>By default, rule description and priority are exposed as JMX manageable attributes.
-If you need to expose more specific attributes, you can extend the <code>Rule</code> interface and add getters and setters of your manageable attributes.</p>
+If you need to expose more specific attributes, you can extend the <code>JMXRule</code> interface and add getters and setters of your manageable attributes.</p>
 
 <p>An example of using dynamic rule reconfiguration at runtime is provided in the <a href="http://www.easyrules.org/tutorials/dynamic-configuration.html">online shop tutorial</a>.</p>
 
@@ -164,11 +176,12 @@ If you need to expose more specific attributes, you can extend the <code>Rule</c
   <footer>
   <div class="grid">
     <div class="unit one-third center-on-mobiles">
-      <p>Project created and maintained by <a target="_blank" href="http://www.mahmoudbenhassine.com">Mahmoud Ben Hassine</a>.</p>
+      <p>Project created and maintained by <a target="_blank" href="http://www.mahmoud-benhassine.fr">Mahmoud Ben Hassine</a>
+          and the <a href="https://github.com/benas/easy-rules#awesome-contributors" target="_blank">awesome contributors</a>.</p>
     </div>
     <div class="unit two-thirds align-right center-on-mobiles">
-      <p>
-        Inspired by and built with <a target="_blank" href="http://jekyllrb.com">Jekyll</a>. Hosted on <a target="_blank" href="https://github.com">Github</a>.
+      <p>Easy Rules is released under the terms of the <a href="http://opensource.org/licenses/mit-license.php/" target="_blank">MIT license</a>.<br/>
+          This website is inspired by and built with <a target="_blank" href="http://jekyllrb.com">Jekyll</a>.
       </p>
 
     </div>
