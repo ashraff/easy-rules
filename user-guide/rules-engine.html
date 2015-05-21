@@ -60,9 +60,20 @@
           <h1>Rules engine</h1>
           <p>Easy Rules engine holds a registry of rules with unique names. Each instance of Easy Rules engine can be seen as a separate namespace.</p>
 
-<p>Rules are applied according to their natural order.</p>
+<p>Rules are applied according to their natural order (which is priority by default).</p>
 
-<p>Easy Rules engine provides the following parameters:</p>
+<h2 id="create-a-rules-engine">Create a rules engine</h2>
+
+<p>To create a rules engine and register a rule, use the following snippet:</p>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">RulesEngine</span> <span class="n">rulesEngine</span> <span class="o">=</span> <span class="n">aNewEngineBuilder</span><span class="o">().</span><span class="na">build</span><span class="o">();</span>
+<span class="n">rulesEngine</span><span class="o">.</span><span class="na">registerRule</span><span class="o">(</span><span class="n">myRule</span><span class="o">);</span>
+</code></pre></div>
+<p>You can then fire registered rules as follows:</p>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">rulesEngine</span><span class="o">.</span><span class="na">fireRules</span><span class="o">();</span>
+</code></pre></div>
+<h2 id="rules-engine-parameters">Rules engine parameters</h2>
+
+<p>Easy Rules engine can be configured with the following parameters:</p>
 
 <table>
     <thead>
@@ -81,37 +92,41 @@
         <td>false</td>
     </tr>
     <tr>
+        <td>skipOnFirstFailedRule</td>
+        <td>boolean</td>
+        <td>no</td>
+        <td>false</td>
+    </tr>
+    <tr>
         <td>rulePriorityThreshold</td>
         <td>int</td>
         <td>no</td>
         <td>Integer.MAX_VALUE</td>
     </tr>
+    <tr>
+        <td>silentMode</td>
+        <td>boolean</td>
+        <td>no</td>
+        <td>false</td>
+    </tr>
     </tbody>
 </table>
 
-<p>The <code>skipOnFirstAppliedRule</code> parameter tells the engine to skip next applicable rules when a rule is applied.</p>
+<p>The <code>skipOnFirstAppliedRule</code> parameter tells the engine to skip next rules when a rule is applied.</p>
 
-<p>The <code>rulePriorityThreshold</code> parameters tells the engine to skip next rules if priority exceeds the defined threshold.</p>
+<p>The <code>skipOnFirstfailedRule</code> parameter tells the engine to skip next rules when a rule fails.</p>
 
-<p>You can specify these parameters at rules engine construction time.</p>
+<p>The <code>rulePriorityThreshold</code> parameter tells the engine to skip next rules if priority exceeds the defined threshold.</p>
 
-<h2 id="create-a-default-rules-engine">Create a default rules engine</h2>
+<p>Silent mode allows you to mute all loggers when needed.</p>
 
-<p>To create a default rules engine and register a rule, use the following snippet:</p>
-<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">RulesEngine</span><span class="o">&lt;</span><span class="n">Rule</span><span class="o">&gt;</span> <span class="n">rulesEngine</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">DefaultRulesEngine</span><span class="o">();</span>
-<span class="n">rulesEngine</span><span class="o">.</span><span class="na">registerRule</span><span class="o">(</span><span class="n">myRule</span><span class="o">);</span>
-</code></pre></div>
-<p>You can fire registered rules as follows:</p>
-<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">rulesEngine</span><span class="o">.</span><span class="na">fireRules</span><span class="o">();</span>
-</code></pre></div>
-<h2 id="create-a-annotated-rules-engine">Create a annotated rules engine</h2>
-
-<p>If your rules are annotated POJOs, you have to use the <code>AnnotatedRulesEngine</code> to register them:</p>
-<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">AnnotatedRulesEngine</span> <span class="n">rulesEngine</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">AnnotatedRulesEngine</span><span class="o">();</span>
-<span class="n">rulesEngine</span><span class="o">.</span><span class="na">registerRule</span><span class="o">(</span><span class="n">myRule</span><span class="o">);</span>
-</code></pre></div>
-<p>As with the default engine, you can fire rules using the following snippet :</p>
-<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">rulesEngine</span><span class="o">.</span><span class="na">fireRules</span><span class="o">();</span>
+<p>You can specify these parameters through the RulesEngineBuilder API:</p>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">RulesEngine</span> <span class="n">rulesEngine</span> <span class="o">=</span> <span class="n">aNewRulesEngine</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">withRulePriorityThreshold</span><span class="o">(</span><span class="mi">10</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">withSkipOnFirstAppliedRule</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">withSkipOnFirstFailedRule</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">withSilentMode</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">build</span><span class="o">();</span>
 </code></pre></div>
           <div class="section-nav">
   <div class="left align-right">

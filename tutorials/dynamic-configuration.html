@@ -107,13 +107,13 @@
     <span class="o">}</span>
 
     <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">evaluateConditions</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">evaluate</span><span class="o">()</span> <span class="o">{</span>
         <span class="k">return</span> <span class="n">order</span><span class="o">.</span><span class="na">getAmount</span><span class="o">()</span> <span class="o">&gt;</span> <span class="n">suspectOrderAmountThreshold</span>
                 <span class="o">&amp;&amp;</span> <span class="n">customer</span><span class="o">.</span><span class="na">isNew</span><span class="o">();</span>
     <span class="o">}</span>
 
     <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">performActions</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">execute</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
         <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">printf</span><span class="o">(</span><span class="s">&quot;Alert : A new customer [id=%s] has placed an order [id=%s] with amount %f &gt; %f\n&quot;</span><span class="o">,</span>
                 <span class="n">customer</span><span class="o">.</span><span class="na">getCustomerId</span><span class="o">(),</span> <span class="n">order</span><span class="o">.</span><span class="na">getOrderId</span><span class="o">(),</span> <span class="n">order</span><span class="o">.</span><span class="na">getAmount</span><span class="o">(),</span> <span class="n">suspectOrderAmountThreshold</span><span class="o">);</span>
     <span class="o">}</span>
@@ -124,11 +124,11 @@
 </code></pre></div>
 <p>This rule operates on an order and a customer instances which represent the business data to operate on.</p>
 
-<p>The <code>evaluateConditions</code> method evaluates to true when the customer is new and the order amount is greater than the defined threshold.</p>
+<p>The <code>evaluate</code> method evaluates to true when the customer is new and the order amount is greater than the defined threshold.</p>
 
-<p>The <code>performActions</code> method simply writes to the console the specified alert (this could be sending an email or another action in a real use case).</p>
+<p>The <code>execute</code> method simply writes to the console the specified alert (this could be sending an email or another action in a real use case).</p>
 
-<p>Then, let&#39;s create an Easy Rules engine and register the <code>SuspectOrderRule</code> rule:</p>
+<p>Then, let&#39;s create a <code>JmxRulesEngine</code> and register the <code>SuspectOrderRule</code> rule:</p>
 <div class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">OrderSampleLauncher</span> <span class="o">{</span>
 
     <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
@@ -150,10 +150,10 @@
         <span class="n">suspectOrderRule</span><span class="o">.</span><span class="na">setCustomer</span><span class="o">(</span><span class="n">customer</span><span class="o">);</span>
 
         <span class="cm">/**</span>
-<span class="cm">         * Create a default rules engine and register the business rule</span>
+<span class="cm">         * Create a rules engine and register the business rule</span>
 <span class="cm">         */</span>
-        <span class="n">DefaultRulesEngine</span> <span class="n">rulesEngine</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">DefaultRulesEngine</span><span class="o">();</span>
-        <span class="n">rulesEngine</span><span class="o">.</span><span class="na">registerRule</span><span class="o">(</span><span class="n">suspectOrderRule</span><span class="o">);</span>
+        <span class="n">JmxRulesEngine</span> <span class="n">rulesEngine</span> <span class="o">=</span> <span class="n">aNewJmxRulesEngine</span><span class="o">().</span><span class="na">build</span><span class="o">();</span>
+        <span class="n">rulesEngine</span><span class="o">.</span><span class="na">registerJmxRule</span><span class="o">(</span><span class="n">suspectOrderRule</span><span class="o">);</span>
 
         <span class="cm">/**</span>
 <span class="cm">         * Fire rules</span>
@@ -175,7 +175,7 @@
 
 <p>In this tutorial, we need to expose the order amount threshold as a JMX attribute. So first, let&#39;s define an interface that allows us to change order amount threshold via JMX:</p>
 <div class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@javax.management.MXBean</span>
-<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">SuspectOrderJmxRule</span> <span class="kd">extends</span> <span class="n">JMXRule</span> <span class="o">{</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">SuspectOrderJmxRule</span> <span class="kd">extends</span> <span class="n">JmxRule</span> <span class="o">{</span>
 
     <span class="cm">/**</span>
 <span class="cm">     * Get the current suspect order amount threshold</span>
@@ -230,9 +230,9 @@
         <span class="n">suspectOrderRule</span><span class="o">.</span><span class="na">setCustomer</span><span class="o">(</span><span class="n">customer</span><span class="o">);</span>
 
         <span class="cm">/**</span>
-<span class="cm">         * Create a default rules engine and register the business rule</span>
+<span class="cm">         * Create a Jmx rules engine and register the business rule</span>
 <span class="cm">         */</span>
-        <span class="n">DefaultRulesEngine</span> <span class="n">rulesEngine</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">DefaultRulesEngine</span><span class="o">();</span>
+        <span class="n">JmxRulesEngine</span> <span class="n">rulesEngine</span> <span class="o">=</span> <span class="n">aNewJmxRulesEngine</span><span class="o">().</span><span class="na">build</span><span class="o">();</span>
         <span class="n">rulesEngine</span><span class="o">.</span><span class="na">registerJmxRule</span><span class="o">(</span><span class="n">suspectOrderRule</span><span class="o">);</span>
 
         <span class="cm">/**</span>

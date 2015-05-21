@@ -65,41 +65,48 @@
 <span class="cm">    * This method encapsulates the rule&#39;s conditions.</span>
 <span class="cm">    * @return true if the rule should be applied, false else</span>
 <span class="cm">    */</span>
-    <span class="kt">boolean</span> <span class="nf">evaluateConditions</span><span class="o">();</span>
+    <span class="kt">boolean</span> <span class="nf">evaluate</span><span class="o">();</span>
 
     <span class="cm">/**</span>
 <span class="cm">    * This method encapsulates the rule&#39;s actions.</span>
 <span class="cm">    * @throws Exception thrown if an exception occurs</span>
 <span class="cm">    * during actions performing</span>
 <span class="cm">    */</span>
-    <span class="kt">void</span> <span class="nf">performActions</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span><span class="o">;</span>
+    <span class="kt">void</span> <span class="nf">execute</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span><span class="o">;</span>
 
     <span class="c1">//Getters and setters for rule name,</span>
     <span class="c1">//description and priority omitted.</span>
 
 <span class="o">}</span>
 </code></pre></div>
-<p>The <code>evaluateConditions</code> method encapsulates conditions that must evaluate to <em>TRUE</em> to trigger the rule.</p>
+<p>The <code>evaluate</code> method encapsulates conditions that must evaluate to <em>TRUE</em> to trigger the rule.</p>
 
-<p>The <code>performActions</code> method encapsulates actions that should be performed when rule&#39;s conditions are satisfied.</p>
+<p>The <code>execute</code> method encapsulates actions that should be performed when rule&#39;s conditions are satisfied.</p>
+
+<p>You can define rules in two ways:</p>
+
+<ul>
+<li>By implementing the <code>Rule</code> interface or extending the <code>BasicRule</code> class</li>
+<li>Adding annotations on a POJO</li>
+</ul>
 
 <h2 id="defining-rules-by-extending-basicrule">Defining rules by extending <em>BasicRule</em></h2>
 
 <p>Easy Rules provides a simple implementation of the <code>Rule</code> interface named <code>BasicRule</code>. This class implements most of methods
-defined in the <code>Rule</code> interface. You can extends this class and override <code>evaluateConditions</code> and
-<code>performActions</code> methods to provide your conditions and actions logic. Here is an example:</p>
+defined in the <code>Rule</code> interface. You can extends this class and override <code>evaluate</code> and
+<code>execute</code> methods to provide your conditions and actions logic. Here is an example:</p>
 <div class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyRule</span> <span class="kd">extends</span> <span class="n">BasicRule</span> <span class="o">{</span>
 
     <span class="kd">private</span> <span class="n">BusinessData</span> <span class="n">myBusinessData</span><span class="o">;</span> <span class="c1">//data to operate on</span>
 
     <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">evaluateConditions</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">evaluate</span><span class="o">()</span> <span class="o">{</span>
         <span class="c1">//my rule conditions</span>
         <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
     <span class="o">}</span>
 
     <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">performActions</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">execute</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
         <span class="c1">//my actions</span>
     <span class="o">}</span>
 
@@ -131,13 +138,15 @@ defined in the <code>Rule</code> interface. You can extends this class and overr
 
 <span class="o">}</span>
 </code></pre></div>
-<p>You can use <code>@Condition</code> and <code>@Action</code> annotations to mark methods to execute to check rule conditions and perform rule actions
-respectively.</p>
+<p>The <code>@Condition</code> annotation marks the method to execute to evaluate the rule conditions.
+This method must be public, have no parameters and return a boolean type. Only one method can be annotated with <code>@Condition</code> annotation.</p>
+
+<p>The <code>@Action</code> annotation marks methods to execute to perform rule actions. Rules can have multiple actions.</p>
 
 <div class="note info">
-  <h5>Rules can have multiple actions</h5>
-  <p>You can annotate multiple methods with the <em>Action</em> annotation. You can also define the execution order of actions with the
-  <em>order</em> attribute: <em>@Action(order = 1)</em>.</p>
+  <h5>Actions can be executed in a specified order</h5>
+  <p>You can also define the execution order of actions with the
+  <em>order</em> attribute: <em>@Action(order = 1)</em>. By default, the order of an action is 0.</p>
 </div>
 
 <h2 id="composite-rules">Composite rules</h2>
@@ -158,7 +167,7 @@ rules which is rules priorities by default.</p>
 <span class="n">myCompositeRule</span><span class="o">.</span><span class="na">addRule</span><span class="o">(</span><span class="n">myRule2</span><span class="o">);</span>
 
 <span class="c1">//Register the composite rule as a regular rule</span>
-<span class="n">RulesEngine</span> <span class="n">rulesEngine</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">DefaultRulesEngine</span><span class="o">();</span>
+<span class="n">RulesEngine</span> <span class="n">rulesEngine</span> <span class="o">=</span> <span class="n">aNewRulesEngine</span><span class="o">().</span><span class="na">build</span><span class="o">();</span>
 <span class="n">rulesEngine</span><span class="o">.</span><span class="na">registerRule</span><span class="o">(</span><span class="n">myCompositeRule</span><span class="o">);</span>
 </code></pre></div>
 <h2 id="rules-priorities">Rules priorities</h2>
@@ -173,6 +182,32 @@ the <code>getPriority()</code> method</p></li>
 <li><p>If your rule is a annotated POJO, you should annotate the method that provides priority with <code>@Priority</code> annotation.
 This method must be public, have no arguments and return an Integer type</p></li>
 </ul>
+
+<h2 id="rule-listener">Rule listener</h2>
+
+<p>You can listen to rule execution events through the <code>RuleListener</code> API:</p>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">RuleListener</span> <span class="o">{</span>
+    <span class="cm">/**</span>
+<span class="cm">     * Triggered before a rule is executed.</span>
+<span class="cm">     */</span>
+    <span class="kt">void</span> <span class="nf">beforeExecute</span><span class="o">(</span><span class="n">Rule</span> <span class="n">rule</span><span class="o">);</span>
+    <span class="cm">/**</span>
+<span class="cm">     * Triggered after a rule is executed successfully.</span>
+<span class="cm">     */</span>
+    <span class="kt">void</span> <span class="nf">onSuccess</span><span class="o">(</span><span class="n">Rule</span> <span class="n">rule</span><span class="o">);</span>
+    <span class="cm">/**</span>
+<span class="cm">     * Triggered after a rule is executed with error.</span>
+<span class="cm">     */</span>
+    <span class="kt">void</span> <span class="nf">onFailure</span><span class="o">(</span><span class="n">Rule</span> <span class="n">rule</span><span class="o">,</span> <span class="n">Exception</span> <span class="n">exception</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div>
+<p>You can implement this interface to provide custom behavior to execute before/after each rule.
+To register your listener, use the following snippet:</p>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">RulesEngine</span> <span class="n">rulesEngine</span> <span class="o">=</span> <span class="n">aNewRulesEngine</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">withRuleListener</span><span class="o">(</span><span class="n">myRuleListener</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</code></pre></div>
+<p>You can register as many listeners as you want, they will be executed in their registration order.</p>
 
           <div class="section-nav">
   <div class="left align-right">

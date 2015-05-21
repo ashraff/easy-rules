@@ -58,7 +58,7 @@
       <div class="unit four-fifths">
         <article>
           <h1>Rule Priority tutorial</h1>
-          <p>This tutorial shows how define priority in which rules must be fired.
+          <p>This tutorial shows how to define priority in which rules must be fired.
 In Easy Rules, every rule has a priority. Rules are fired by default according to their priorities (this can be changed as described in the <a href="http://www.easyrules.org/user-guide/defining-rules.html#rules-priorities">user guide</a>).</p>
 
 <p>In this tutorial, we have an application that sells alcohol. The application must flag the customer as adult if his age is greater than 18,
@@ -78,8 +78,8 @@ and must deny children from buying alcohol. Customers are represented by the fol
 <p>Based on these requirements, we can define the following rules:</p>
 
 <ul>
-<li>Rule 1: This rule should operate an a <code>Person</code> instance, check that the peron age is greater than 18 and set the adult flag.</li>
-<li>Rule 2: This rule should operate an a <code>Person</code> instance, check that the peron is adult and deny children (ie, non adult) from buying alcohol.</li>
+<li>Rule 1: should operate an a <code>Person</code> instance, check that the person age is greater than 18 and set the adult flag.</li>
+<li>Rule 2: should operate an a <code>Person</code> instance, check that the person is adult and deny children (ie, non adult) from buying alcohol.</li>
 </ul>
 
 <p>Rule 1 should be fired <strong><em>before</em></strong> rule 2. We will set rule 1 priority to 1 and rule 2 priority to 2 so that Easy Rules engine fire them in this order.</p>
@@ -169,15 +169,14 @@ and must deny children from buying alcohol. Customers are represented by the fol
             <span class="s">&quot;Tom: Hi! can I have some Vodka please?&quot;</span><span class="o">);</span>
 
         <span class="c1">//create a rules engine</span>
-        <span class="n">AnnotatedRulesEngine</span> <span class="n">annotatedRulesEngine</span> <span class="o">=</span>
-                                <span class="k">new</span> <span class="nf">AnnotatedRulesEngine</span><span class="o">();</span>
+        <span class="n">RulesEngine</span> <span class="n">rulesEngine</span> <span class="o">=</span> <span class="n">aNewRulesEngine</span><span class="o">().</span><span class="na">build</span><span class="o">();</span>
 
         <span class="c1">//register rules</span>
-        <span class="n">annotatedRulesEngine</span><span class="o">.</span><span class="na">registerRule</span><span class="o">(</span><span class="k">new</span> <span class="nf">AgeRule</span><span class="o">(</span><span class="n">tom</span><span class="o">));</span>
-        <span class="n">annotatedRulesEngine</span><span class="o">.</span><span class="na">registerRule</span><span class="o">(</span><span class="k">new</span> <span class="nf">AlcoholRule</span><span class="o">(</span><span class="n">tom</span><span class="o">));</span>
+        <span class="n">rulesEngine</span><span class="o">.</span><span class="na">registerRule</span><span class="o">(</span><span class="k">new</span> <span class="nf">AgeRule</span><span class="o">(</span><span class="n">tom</span><span class="o">));</span>
+        <span class="n">rulesEngine</span><span class="o">.</span><span class="na">registerRule</span><span class="o">(</span><span class="k">new</span> <span class="nf">AlcoholRule</span><span class="o">(</span><span class="n">tom</span><span class="o">));</span>
 
         <span class="c1">//fire rules</span>
-        <span class="n">annotatedRulesEngine</span><span class="o">.</span><span class="na">fireRules</span><span class="o">();</span>
+        <span class="n">rulesEngine</span><span class="o">.</span><span class="na">fireRules</span><span class="o">();</span>
 
     <span class="o">}</span>
 
