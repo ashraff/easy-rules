@@ -1,4 +1,6 @@
 org.easyrules.annotation
 org.easyrules.api
 org.easyrules.core
+org.easyrules.quartz
+org.easyrules.spring
 org.easyrules.util

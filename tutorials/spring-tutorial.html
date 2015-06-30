@@ -1,0 +1,268 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <title>Using Easy Rules with Spring</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="author" content="Mahmoud Ben Hassine">
+  <meta name="description" content="Open source java rules engine">
+  <meta name="keywords" content="java, rules engine, open source">
+  <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Arizonia' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="http://www.easyrules.org/css/normalize.css" />
+  <link rel="stylesheet" href="http://www.easyrules.org/css/gridism.css" />
+  <link rel="stylesheet" href="http://www.easyrules.org/css/style.css" />
+  <link rel="stylesheet" href="http://www.easyrules.org/css/pygments.css" />
+  <link rel="icon" type="image/x-icon" href="http://www.easyrules.org/favicon.ico" />
+  <script src="http://www.easyrules.org/js/modernizr-2.5.3.min.js"></script>
+</head>
+
+
+<body class="wrap">
+
+  <header>
+  <div class="grid">
+    <div class="unit one-third">
+      <a href="http://www.easyrules.org/index.html">
+        <h1>
+          <span class="shadow">Easy Rules</span>
+        </h1>
+      </a>
+    </div>
+    <nav class="main-nav unit two-thirds">
+      <ul>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+  <li class="">
+    <a href="http://www.easyrules.org/index.html">Home</a>
+  </li>
+  <li class="current">
+    <a href="http://www.easyrules.org/about/overview.html">Documentation</a>
+  </li>
+    <li>
+        <a target="_blank" href="http://www.easyrules.org/apidocs/">API docs</a>
+    </li>
+  <li>
+    <a target="_blank" href="https://github.com/benas/easy-rules">View on GitHub</a>
+  </li>
+</ul>
+
+    </nav>
+  </div>
+</header>
+
+
+    <section class="docs">
+    <div class="grid">
+
+      <div class="unit four-fifths">
+        <article>
+          <h1>Using Easy Rules with Spring</h1>
+          <p>In this tutorial, you will learn how to use Easy Rules embedded in a <a href="http://www.spring.io" target="_blank">Spring</a> container.</p>
+
+<p>You will create a dummy rule and a rules engine and configure them as Spring beans. So let&#39;s get started.</p>
+
+<p>First you need to add the following dependency to your <strong><em>pom.xml</em></strong>:</p>
+<div class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>org.easyrules<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>easyrules-spring<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>2.1.0<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div>
+<p>Then, let&#39;s create the dummy rule:</p>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Rule</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;dummy rule&quot;</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">DummyRule</span> <span class="o">{</span>
+
+    <span class="nd">@Condition</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">when</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Action</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">then</span><span class="o">(){</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Hey, I&#39;m managed by Spring&quot;</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>
+<p>Now, we we can use the <code>RulesEngineFactoryBean</code> to configure a rules engine and register the dummy rule:</p>
+<div class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;beans</span> <span class="na">xmlns=</span><span class="s">&quot;http://www.springframework.org/schema/beans&quot;</span>
+       <span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
+       <span class="na">xsi:schemaLocation=</span><span class="s">&quot;http://www.springframework.org/schema/beans</span>
+<span class="s">       http://www.springframework.org/schema/beans/spring-beans.xsd&quot;</span><span class="nt">&gt;</span>
+
+    <span class="c">&lt;!-- configure rule  --&gt;</span>
+    <span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">&quot;rule&quot;</span> <span class="na">class=</span><span class="s">&quot;org.easyrules.samples.spring.DummyRule&quot;</span><span class="nt">/&gt;</span>
+
+    <span class="c">&lt;!-- configure rules engine --&gt;</span>
+    <span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">&quot;rulesEngine&quot;</span> <span class="na">class=</span><span class="s">&quot;org.easyrules.spring.RulesEngineFactoryBean&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&quot;rules&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;list&gt;</span>
+                <span class="nt">&lt;ref</span> <span class="na">bean=</span><span class="s">&quot;rule&quot;</span><span class="nt">/&gt;</span>
+            <span class="nt">&lt;/list&gt;</span>
+        <span class="nt">&lt;/property&gt;</span>
+    <span class="nt">&lt;/bean&gt;</span>
+
+<span class="nt">&lt;/beans&gt;</span>
+</code></pre></div>
+<p>Finally, we can get the rules engine from the Spring context and fire rules:</p>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Launcher</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+        <span class="n">ApplicationContext</span> <span class="n">context</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">ClassPathXmlApplicationContext</span><span class="o">(</span><span class="s">&quot;org/easyrules/samples/spring/application-context.xml&quot;</span><span class="o">);</span>
+        <span class="n">RulesEngine</span> <span class="n">rulesEngine</span> <span class="o">=</span> <span class="o">(</span><span class="n">RulesEngine</span><span class="o">)</span> <span class="n">context</span><span class="o">.</span><span class="na">getBean</span><span class="o">(</span><span class="s">&quot;rulesEngine&quot;</span><span class="o">);</span>
+
+        <span class="n">rulesEngine</span><span class="o">.</span><span class="na">fireRules</span><span class="o">();</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+</code></pre></div>
+<p>That&#39;s all. To run the tutorial, you can follow these instructions from the root directory of Easy Rules:</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>mvn install
+<span class="nv">$ </span><span class="nb">cd </span>easyrules-samples
+<span class="nv">$ </span>mvn <span class="nb">exec</span>:java -P runSpringTutorial</code></pre></div>
+
+<p>You would get the following output:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">INFO: Rule priority threshold: 2,147,483,647
+INFO: Skip on first applied rule: false
+INFO: Skip on first failed rule: false
+INFO: Rule &#39;dummy rule&#39; triggered.
+Hey, I&#39;m managed by Spring
+INFO: Rule &#39;dummy rule&#39; performed successfully.
+</code></pre></div>
+          <div class="section-nav">
+  <div class="left align-right">
+    
+      <a href="http://www.easyrules.org/tutorials/scheduling-engine.html" class="prev">
+        Back
+      </a>
+    
+  </div>
+  <div class="right align-left">
+    
+      <a href="http://www.easyrules.org/get-involved/release-notes.html" class="next">
+        Next
+      </a>
+    
+  </div>
+  <div class="clear"></div>
+</div>
+
+
+        </article>
+      </div>
+
+      <div class="unit one-fifth">
+  <aside>
+
+    <h4>About Easy Rules</h4>
+    <ul>
+      <li class="">
+        <a href="http://www.easyrules.org/about/overview.html">Overview</a>
+      </li>
+      <li class="">
+        <a href="http://www.easyrules.org/about/getting-started.html">Getting started</a>
+      </li>
+    </ul>
+
+    <h4>User guide</h4>
+      <ul>
+          <li class="">
+            <a href="http://www.easyrules.org/user-guide/introduction.html">Introduction</a>
+          </li>
+          <li class="">
+            <a href="http://www.easyrules.org/user-guide/defining-rules.html">Defining rules</a>
+          </li>
+          <li class="">
+            <a href="http://www.easyrules.org/user-guide/rules-engine.html">Rules engine</a>
+          </li>
+          <li class="">
+            <a href="http://www.easyrules.org/user-guide/managing-rules.html">Managing rules</a>
+          </li>
+          <li class="">
+          <a href="http://www.easyrules.org/user-guide/scheduling-rules-engine.html">Scheduling rules engine</a>
+          </li>
+          <li class="">
+          <a href="http://www.easyrules.org/user-guide/embedding-rules-engine.html">Embedding rules engine</a>
+          </li>
+      </ul>
+
+      <h4>Tutorials</h4>
+      <ul>
+          <li class="">
+            <a href="http://www.easyrules.org/tutorials/hello-world.html">Hello World</a>
+          </li>
+          <li class="">
+          <a href="http://www.easyrules.org/tutorials/rule-priority.html">Rule Priority</a>
+          </li>
+          <li class="">
+            <a href="http://www.easyrules.org/tutorials/dynamic-configuration.html">Dynamic configuration</a>
+          </li>
+          <li class="">
+          <a href="http://www.easyrules.org/tutorials/scheduling-engine.html">Engine scheduler</a>
+          </li>
+          <li class="current">
+          <a href="http://www.easyrules.org/tutorials/spring-tutorial.html">Spring tutorial</a>
+          </li>
+      </ul>
+
+
+
+    <h4>Get involved</h4>
+    <ul>
+        <li class="">
+            <a href="http://www.easyrules.org/get-involved/release-notes.html">Release notes</a>
+        </li>
+        <li class="">
+        <a href="http://www.easyrules.org/get-involved/faq.html">FAQs</a>
+        </li>
+        <li>
+            <a target="_blank" href="https://github.com/benas/easy-rules">Source repository</a>
+        </li>
+        <li>
+            <a target="_blank" href="https://github.com/benas/easy-rules/issues">Issue tracker</a>
+        </li>
+    </ul>
+
+  </aside>
+</div>
+
+
+      <div class="clear"></div>
+
+    </div>
+  </section>
+
+
+  <footer>
+  <div class="grid">
+    <div class="unit one-third center-on-mobiles">
+      <p>Project created and maintained by <a target="_blank" href="http://www.mahmoud-benhassine.fr">Mahmoud Ben Hassine</a>
+          and the <a href="https://github.com/benas/easy-rules#awesome-contributors" target="_blank">awesome contributors</a>.</p>
+    </div>
+    <div class="unit two-thirds align-right center-on-mobiles">
+      <p>Easy Rules is released under the terms of the <a href="http://opensource.org/licenses/mit-license.php/" target="_blank">MIT license</a>.<br/>
+          This website is inspired by and built with <a target="_blank" href="http://jekyllrb.com">Jekyll</a>.
+      </p>
+
+    </div>
+  </div>
+</footer>
+
+    <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-46301888-1']);
+    _gaq.push(['_trackPageview']);
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</body>
+
+</html>
+

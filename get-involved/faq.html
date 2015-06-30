@@ -1,0 +1,334 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <title>FAQ</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="author" content="Mahmoud Ben Hassine">
+  <meta name="description" content="Open source java rules engine">
+  <meta name="keywords" content="java, rules engine, open source">
+  <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Arizonia' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="http://www.easyrules.org/css/normalize.css" />
+  <link rel="stylesheet" href="http://www.easyrules.org/css/gridism.css" />
+  <link rel="stylesheet" href="http://www.easyrules.org/css/style.css" />
+  <link rel="stylesheet" href="http://www.easyrules.org/css/pygments.css" />
+  <link rel="icon" type="image/x-icon" href="http://www.easyrules.org/favicon.ico" />
+  <script src="http://www.easyrules.org/js/modernizr-2.5.3.min.js"></script>
+</head>
+
+
+<body class="wrap">
+
+  <header>
+  <div class="grid">
+    <div class="unit one-third">
+      <a href="http://www.easyrules.org/index.html">
+        <h1>
+          <span class="shadow">Easy Rules</span>
+        </h1>
+      </a>
+    </div>
+    <nav class="main-nav unit two-thirds">
+      <ul>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+  <li class="">
+    <a href="http://www.easyrules.org/index.html">Home</a>
+  </li>
+  <li class="current">
+    <a href="http://www.easyrules.org/about/overview.html">Documentation</a>
+  </li>
+    <li>
+        <a target="_blank" href="http://www.easyrules.org/apidocs/">API docs</a>
+    </li>
+  <li>
+    <a target="_blank" href="https://github.com/benas/easy-rules">View on GitHub</a>
+  </li>
+</ul>
+
+    </nav>
+  </div>
+</header>
+
+
+    <section class="docs">
+    <div class="grid">
+
+      <div class="unit four-fifths">
+        <article>
+          <h1></h1>
+          <h2 id="1.-why-is-easy-rules-called-the-&quot;the-stupid-java-rules-engine&quot;?"><a name="1"></a><a href="#1">1. Why is Easy Rules called the &quot;The stupid Java rules engine&quot;?</a></h2>
+
+<p>The goal behind Easy Rules is to provide a lightweight rules engine without features that 80% of application 
+do not need. The term &quot;stupid&quot; is actually the perfect term to describe how the engine works: It iterates
+over a set of ordered rules and execute rules when their conditions are met. This what makes it easy to learn use and 
+use following the KISS principle.</p>
+
+<h2 id="2.-i-would-like-to-return-a-value-upon-a-rule-execution,-how-to-do-that?"><a name="2"></a><a href="#2">2. I would like to return a value upon a rule execution, how to do that?</a></h2>
+
+<p>By design, rules do not return values. But you can always make your rules return a result after execution. Here is an example:</p>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Rule</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;my rule&quot;</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">MyRule</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kt">boolean</span> <span class="n">executed</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="n">T</span> <span class="n">result</span><span class="o">;</span>
+
+    <span class="c1">//@Condition</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">when</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="c1">//@Action</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">then</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">MyException</span> <span class="o">{</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;my rule has been executed&quot;</span><span class="o">);</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span> <span class="c1">// assign your result here</span>
+            <span class="n">executed</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">MyException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">// executed flag will remain false if an exception occurs</span>
+            <span class="k">throw</span> <span class="n">e</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isExecuted</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">executed</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">T</span> <span class="nf">getResult</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">result</span><span class="o">;</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+</code></pre></div>
+<p>This rule will return a result if it executes successfully. After firing rules, you query the <code>executed</code> flag on your
+rule instance and get the execution result.</p>
+
+<h2 id="3.-i&#39;ve-registered-multiple-instances-of-the-same-rule-with-different-inputs,-but-it-seems-only-the-first-instance-is-registered.-what&#39;s-happening?"><a name="3"></a><a href="#3">3. I&#39;ve registered multiple instances of the same rule with different inputs, but it seems only the first instance is registered. What&#39;s happening?</a></h2>
+
+<p>Rules have unique names within a rules engine registry. If you register multiple instances of the same rule, only the first instance will be considered.
+Other instances will be ignored since they have the same name. Let&#39;s see an example:</p>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Rule</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;AgeRule&quot;</span><span class="o">,</span>
+      <span class="n">description</span> <span class="o">=</span> <span class="s">&quot;Check if person&#39;s age is &gt; 18</span>
+<span class="s">                     and marks the person as adult&quot;</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">AgeRule</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="n">Person</span> <span class="n">person</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">adultAge</span> <span class="o">=</span> <span class="mi">18</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">AgeRule</span><span class="o">(</span><span class="n">Person</span> <span class="n">person</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">person</span> <span class="o">=</span> <span class="n">person</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Condition</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isAdult</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">person</span><span class="o">.</span><span class="na">getAge</span><span class="o">()</span> <span class="o">&gt;</span> <span class="n">adultAge</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Action</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">markAsAdult</span><span class="o">(){</span>
+        <span class="n">person</span><span class="o">.</span><span class="na">setAdult</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">printf</span><span class="o">(</span>
+            <span class="s">&quot;Person %s has been marked as adult.\n&quot;</span><span class="o">,</span>
+             <span class="n">person</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+</code></pre></div>
+<p>The <code>Person</code> type is a simple Pojo having a <code>name</code> and <code>age</code> fields. Let&#39;s register multiple instances of the <code>AgeRule</code>:</p>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">Person</span> <span class="n">tom</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">Person</span><span class="o">(</span><span class="s">&quot;Tom&quot;</span><span class="o">,</span> <span class="mi">20</span><span class="o">);</span>
+<span class="n">Person</span> <span class="n">david</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">Person</span><span class="o">(</span><span class="s">&quot;David&quot;</span><span class="o">,</span> <span class="mi">19</span><span class="o">);</span>
+
+<span class="n">RulesEngine</span> <span class="n">rulesEngine</span> <span class="o">=</span> <span class="n">aNewRulesEngine</span><span class="o">().</span><span class="na">build</span><span class="o">();</span>
+
+<span class="c1">//first run</span>
+<span class="n">AgeRule</span> <span class="n">ageRule</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">AgeRule</span><span class="o">(</span><span class="n">tom</span><span class="o">);</span>
+<span class="n">rulesEngine</span><span class="o">.</span><span class="na">registerRule</span><span class="o">(</span><span class="n">ageRule</span><span class="o">);</span>
+<span class="n">rulesEngine</span><span class="o">.</span><span class="na">fireRules</span><span class="o">();</span>
+
+<span class="c1">//second run</span>
+<span class="n">ageRule</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">AgeRule</span><span class="o">(</span><span class="n">david</span><span class="o">);</span>
+<span class="n">rulesEngine</span><span class="o">.</span><span class="na">registerRule</span><span class="o">(</span><span class="n">ageRule</span><span class="o">);</span>
+<span class="n">rulesEngine</span><span class="o">.</span><span class="na">fireRules</span><span class="o">();</span>
+</code></pre></div>
+<p>Both Tom and David are adults, so you are expecting to see:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">Person Tom has been marked as adult.
+Person David has been marked as adult.
+</code></pre></div>
+<p>But actually you get:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">Person Tom has been marked as adult.
+Person Tom has been marked as adult.
+</code></pre></div>
+<p>The second rule instance has been ignored at registration time since it has the same name ( &quot;AgeRule&quot; ) as the first instance.</p>
+
+<p>So how to deal with multiple data using the same rule?</p>
+
+<p>You have 2 solutions: Either you clear rules after the first run using <code>rulesEngine.clearRules()</code>, or register your rule only once,
+ vary input using a setter (that you should add to your rule) and re-fire rules:</p>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="c1">//create persons</span>
+<span class="n">Person</span> <span class="n">tom</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">Person</span><span class="o">(</span><span class="s">&quot;Tom&quot;</span><span class="o">,</span> <span class="mi">20</span><span class="o">);</span>
+<span class="n">Person</span> <span class="n">david</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">Person</span><span class="o">(</span><span class="s">&quot;David&quot;</span><span class="o">,</span> <span class="mi">19</span><span class="o">);</span>
+
+<span class="c1">//create a rules engine</span>
+<span class="n">RulesEngine</span> <span class="n">rulesEngine</span> <span class="o">=</span> <span class="n">aNewRulesEngine</span><span class="o">().</span><span class="na">build</span><span class="o">();</span>
+<span class="n">AgeRule</span> <span class="n">ageRule</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">AgeRule</span><span class="o">();</span>
+<span class="n">rulesEngine</span><span class="o">.</span><span class="na">registerRule</span><span class="o">(</span><span class="n">ageRule</span><span class="o">);</span>
+
+<span class="c1">//first run</span>
+<span class="n">ageRule</span><span class="o">.</span><span class="na">setPerson</span><span class="o">(</span><span class="n">tom</span><span class="o">);</span>
+<span class="n">rulesEngine</span><span class="o">.</span><span class="na">fireRules</span><span class="o">();</span>
+
+<span class="c1">//second run</span>
+<span class="n">ageRule</span><span class="o">.</span><span class="na">setPerson</span><span class="o">(</span><span class="n">david</span><span class="o">);</span>
+<span class="n">rulesEngine</span><span class="o">.</span><span class="na">fireRules</span><span class="o">();</span>
+</code></pre></div>
+<p>This is more efficient than registering new instances for each new business data input.</p>
+
+<h2 id="4.-is-easy-rules-usable-with-android?"><a name="4"></a><a href="#4">4. Is Easy Rules usable with Android?</a></h2>
+
+<p>Yes. Thanks to the community, Easy Rules has been made Android compatible since version 1.3</p>
+
+<h2 id="5.-can-i-use-easy-rules-in-a-web-application?"><a name="5"></a><a href="#5">5. Can I use Easy Rules in a web application?</a></h2>
+
+<p>Sure. Easy Rules is very lightweight and can be used both in a standalone application or embedded in an application server,
+a servlet container or a dependency injection container.</p>
+
+<h2 id="6.-i-have-another-question,-how-do-i-do?"><a name="6"></a><a href="#6">6. I have another question, how do I do?</a></h2>
+
+<p>Feel free to ask your question in the <a href="https://gitter.im/benas/easy-rules">Gitter</a> channel of the project: <a href="https://gitter.im/benas/easy-rules?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge&amp;utm_content=badge"><img src="https://badges.gitter.im/Join%20Chat.svg" alt="Gitter"></a></p>
+
+          <div class="section-nav">
+  <div class="left align-right">
+    
+      <a href="http://www.easyrules.org/get-involved/release-notes.html" class="prev">
+        Back
+      </a>
+    
+  </div>
+  <div class="right align-left">
+    
+      <span class="next disabled">Next</span>
+    
+  </div>
+  <div class="clear"></div>
+</div>
+
+
+        </article>
+      </div>
+
+      <div class="unit one-fifth">
+  <aside>
+
+    <h4>About Easy Rules</h4>
+    <ul>
+      <li class="">
+        <a href="http://www.easyrules.org/about/overview.html">Overview</a>
+      </li>
+      <li class="">
+        <a href="http://www.easyrules.org/about/getting-started.html">Getting started</a>
+      </li>
+    </ul>
+
+    <h4>User guide</h4>
+      <ul>
+          <li class="">
+            <a href="http://www.easyrules.org/user-guide/introduction.html">Introduction</a>
+          </li>
+          <li class="">
+            <a href="http://www.easyrules.org/user-guide/defining-rules.html">Defining rules</a>
+          </li>
+          <li class="">
+            <a href="http://www.easyrules.org/user-guide/rules-engine.html">Rules engine</a>
+          </li>
+          <li class="">
+            <a href="http://www.easyrules.org/user-guide/managing-rules.html">Managing rules</a>
+          </li>
+          <li class="">
+          <a href="http://www.easyrules.org/user-guide/scheduling-rules-engine.html">Scheduling rules engine</a>
+          </li>
+          <li class="">
+          <a href="http://www.easyrules.org/user-guide/embedding-rules-engine.html">Embedding rules engine</a>
+          </li>
+      </ul>
+
+      <h4>Tutorials</h4>
+      <ul>
+          <li class="">
+            <a href="http://www.easyrules.org/tutorials/hello-world.html">Hello World</a>
+          </li>
+          <li class="">
+          <a href="http://www.easyrules.org/tutorials/rule-priority.html">Rule Priority</a>
+          </li>
+          <li class="">
+            <a href="http://www.easyrules.org/tutorials/dynamic-configuration.html">Dynamic configuration</a>
+          </li>
+          <li class="">
+          <a href="http://www.easyrules.org/tutorials/scheduling-engine.html">Engine scheduler</a>
+          </li>
+          <li class="">
+          <a href="http://www.easyrules.org/tutorials/spring-tutorial.html">Spring tutorial</a>
+          </li>
+      </ul>
+
+
+
+    <h4>Get involved</h4>
+    <ul>
+        <li class="">
+            <a href="http://www.easyrules.org/get-involved/release-notes.html">Release notes</a>
+        </li>
+        <li class="current">
+        <a href="http://www.easyrules.org/get-involved/faq.html">FAQs</a>
+        </li>
+        <li>
+            <a target="_blank" href="https://github.com/benas/easy-rules">Source repository</a>
+        </li>
+        <li>
+            <a target="_blank" href="https://github.com/benas/easy-rules/issues">Issue tracker</a>
+        </li>
+    </ul>
+
+  </aside>
+</div>
+
+
+      <div class="clear"></div>
+
+    </div>
+  </section>
+
+
+  <footer>
+  <div class="grid">
+    <div class="unit one-third center-on-mobiles">
+      <p>Project created and maintained by <a target="_blank" href="http://www.mahmoud-benhassine.fr">Mahmoud Ben Hassine</a>
+          and the <a href="https://github.com/benas/easy-rules#awesome-contributors" target="_blank">awesome contributors</a>.</p>
+    </div>
+    <div class="unit two-thirds align-right center-on-mobiles">
+      <p>Easy Rules is released under the terms of the <a href="http://opensource.org/licenses/mit-license.php/" target="_blank">MIT license</a>.<br/>
+          This website is inspired by and built with <a target="_blank" href="http://jekyllrb.com">Jekyll</a>.
+      </p>
+
+    </div>
+  </div>
+</footer>
+
+    <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-46301888-1']);
+    _gaq.push(['_trackPageview']);
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</body>
+
+</html>
+

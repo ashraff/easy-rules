@@ -64,7 +64,7 @@
 
 <h2 id="create-a-rules-engine">Create a rules engine</h2>
 
-<p>To create a rules engine and register a rule, use the following snippet:</p>
+<p>To create a rules engine and register a rule, you can use the static method <code>RulesEngineBuilder.aNewEngineBuilder()</code>:</p>
 <div class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">RulesEngine</span> <span class="n">rulesEngine</span> <span class="o">=</span> <span class="n">aNewEngineBuilder</span><span class="o">().</span><span class="na">build</span><span class="o">();</span>
 <span class="n">rulesEngine</span><span class="o">.</span><span class="na">registerRule</span><span class="o">(</span><span class="n">myRule</span><span class="o">);</span>
 </code></pre></div>
@@ -86,6 +86,12 @@
     </thead>
     <tbody>
     <tr>
+        <td>rulePriorityThreshold</td>
+        <td>int</td>
+        <td>no</td>
+        <td>Integer.MAX_VALUE</td>
+    </tr>
+    <tr>
         <td>skipOnFirstAppliedRule</td>
         <td>boolean</td>
         <td>no</td>
@@ -98,12 +104,6 @@
         <td>false</td>
     </tr>
     <tr>
-        <td>rulePriorityThreshold</td>
-        <td>int</td>
-        <td>no</td>
-        <td>Integer.MAX_VALUE</td>
-    </tr>
-    <tr>
         <td>silentMode</td>
         <td>boolean</td>
         <td>no</td>
@@ -114,13 +114,13 @@
 
 <p>The <code>skipOnFirstAppliedRule</code> parameter tells the engine to skip next rules when a rule is applied.</p>
 
-<p>The <code>skipOnFirstfailedRule</code> parameter tells the engine to skip next rules when a rule fails.</p>
+<p>The <code>skipOnFirstFailedRule</code> parameter tells the engine to skip next rules when a rule fails.</p>
 
 <p>The <code>rulePriorityThreshold</code> parameter tells the engine to skip next rules if priority exceeds the defined threshold.</p>
 
 <p>Silent mode allows you to mute all loggers when needed.</p>
 
-<p>You can specify these parameters through the RulesEngineBuilder API:</p>
+<p>You can specify these parameters through the <code>RulesEngineBuilder</code> API:</p>
 <div class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">RulesEngine</span> <span class="n">rulesEngine</span> <span class="o">=</span> <span class="n">aNewRulesEngine</span><span class="o">()</span>
     <span class="o">.</span><span class="na">withRulePriorityThreshold</span><span class="o">(</span><span class="mi">10</span><span class="o">)</span>
     <span class="o">.</span><span class="na">withSkipOnFirstAppliedRule</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
@@ -177,6 +177,12 @@
           <li class="">
             <a href="http://www.easyrules.org/user-guide/managing-rules.html">Managing rules</a>
           </li>
+          <li class="">
+          <a href="http://www.easyrules.org/user-guide/scheduling-rules-engine.html">Scheduling rules engine</a>
+          </li>
+          <li class="">
+          <a href="http://www.easyrules.org/user-guide/embedding-rules-engine.html">Embedding rules engine</a>
+          </li>
       </ul>
 
       <h4>Tutorials</h4>
@@ -190,6 +196,12 @@
           <li class="">
             <a href="http://www.easyrules.org/tutorials/dynamic-configuration.html">Dynamic configuration</a>
           </li>
+          <li class="">
+          <a href="http://www.easyrules.org/tutorials/scheduling-engine.html">Engine scheduler</a>
+          </li>
+          <li class="">
+          <a href="http://www.easyrules.org/tutorials/spring-tutorial.html">Spring tutorial</a>
+          </li>
       </ul>
 
 
@@ -198,6 +210,9 @@
     <ul>
         <li class="">
             <a href="http://www.easyrules.org/get-involved/release-notes.html">Release notes</a>
+        </li>
+        <li class="">
+        <a href="http://www.easyrules.org/get-involved/faq.html">FAQs</a>
         </li>
         <li>
             <a target="_blank" href="https://github.com/benas/easy-rules">Source repository</a>

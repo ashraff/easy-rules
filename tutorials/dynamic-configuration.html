@@ -62,7 +62,7 @@
 
 <ol>
 <li>Whenever a new customer places an order with an amount greater than a defined threshold, send an alert about this suspect order to the monitoring team.</li>
-<li>Moreover, the order amount threshold should be reconfigurable via JMX so we can change it at runtime.</li>
+<li>Moreover, the order amount threshold should be configurable via JMX so we can change it at runtime.</li>
 </ol>
 
 <p>In the first part of this tutorial, we will see how to use Easy Rules to implement the business rule described in requirement #1.</p>
@@ -73,24 +73,16 @@
 
 <p>In this application, orders and customers are represented by the <em>Order</em> and <em>Customer</em> classes:</p>
 <div class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">class</span> <span class="nc">Order</span> <span class="o">{</span>
-
     <span class="kd">private</span> <span class="kt">long</span> <span class="n">orderId</span><span class="o">;</span>
-
     <span class="kd">private</span> <span class="kt">float</span> <span class="n">amount</span><span class="o">;</span>
-
     <span class="c1">//getters and setters</span>
-
 <span class="o">}</span>
 </code></pre></div>
 <p><br/></p>
 <div class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">class</span> <span class="nc">Customer</span> <span class="o">{</span>
-
     <span class="kd">private</span> <span class="kt">long</span> <span class="n">customerId</span><span class="o">;</span>
-
     <span class="kd">private</span> <span class="kt">boolean</span> <span class="n">isNew</span><span class="o">;</span>
-
     <span class="c1">//getters and setters</span>
-
 <span class="o">}</span>
 </code></pre></div>
 <p>First, let&#39;s implement the rule&#39;s logic by extending the <code>BasicRule</code> class:</p>
@@ -129,7 +121,7 @@
 <p>The <code>execute</code> method simply writes to the console the specified alert (this could be sending an email or another action in a real use case).</p>
 
 <p>Then, let&#39;s create a <code>JmxRulesEngine</code> and register the <code>SuspectOrderRule</code> rule:</p>
-<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">OrderSampleLauncher</span> <span class="o">{</span>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Launcher</span> <span class="o">{</span>
 
     <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
 
@@ -209,7 +201,7 @@
 <span class="o">}</span>
 </code></pre></div>
 <p>Finally, let&#39;s suspend the program to change the order amount threshold value at runtime via any compliant JMX client and see the engine behavior after this change:</p>
-<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">OrderSampleLauncher</span> <span class="o">{</span>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Launcher</span> <span class="o">{</span>
 
     <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">InterruptedException</span> <span class="o">{</span>
 
@@ -272,7 +264,7 @@
   </div>
   <div class="right align-left">
     
-      <a href="http://www.easyrules.org/get-involved/release-notes.html" class="next">
+      <a href="http://www.easyrules.org/tutorials/scheduling-engine.html" class="next">
         Next
       </a>
     
@@ -311,6 +303,12 @@
           <li class="">
             <a href="http://www.easyrules.org/user-guide/managing-rules.html">Managing rules</a>
           </li>
+          <li class="">
+          <a href="http://www.easyrules.org/user-guide/scheduling-rules-engine.html">Scheduling rules engine</a>
+          </li>
+          <li class="">
+          <a href="http://www.easyrules.org/user-guide/embedding-rules-engine.html">Embedding rules engine</a>
+          </li>
       </ul>
 
       <h4>Tutorials</h4>
@@ -324,6 +322,12 @@
           <li class="current">
             <a href="http://www.easyrules.org/tutorials/dynamic-configuration.html">Dynamic configuration</a>
           </li>
+          <li class="">
+          <a href="http://www.easyrules.org/tutorials/scheduling-engine.html">Engine scheduler</a>
+          </li>
+          <li class="">
+          <a href="http://www.easyrules.org/tutorials/spring-tutorial.html">Spring tutorial</a>
+          </li>
       </ul>
 
 
@@ -332,6 +336,9 @@
     <ul>
         <li class="">
             <a href="http://www.easyrules.org/get-involved/release-notes.html">Release notes</a>
+        </li>
+        <li class="">
+        <a href="http://www.easyrules.org/get-involved/faq.html">FAQs</a>
         </li>
         <li>
             <a target="_blank" href="https://github.com/benas/easy-rules">Source repository</a>
