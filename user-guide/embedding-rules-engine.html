@@ -63,7 +63,7 @@
 <p>As of version 2.1.0, Easy Rules provides support for <a href="http://www.spring.io" target="_blank">Spring</a>.
 Support for other DI containers will be added in future versions.</p>
 
-<p>In this section, you will learn how to configure rules and rules engine as Spring beans. 
+<p>In this section, you will learn how to configure rules and rules engine as Spring beans.
 First you need to add the following dependency to your <strong><em>pom.xml</em></strong>:</p>
 <div class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;dependency&gt;</span>
     <span class="nt">&lt;groupId&gt;</span>org.easyrules<span class="nt">&lt;/groupId&gt;</span>
@@ -113,15 +113,21 @@ As you can see, this factory bean is the main entry point to configure:</p>
 <li>And engine parameters (priority threshold, skipOnFirstAppliedRule, silentMode, etc)</li>
 </ul>
 
+<div id="thread-safety" class="note info">
+  <h5>Heads up!</h5>
+  <p>If your rules are not thread safe, you should consider make them of scope <strong>prototype</strong>.</p>
+  <p>The rules engine instance returned by the <code>RulesEngineFactoryBean</code> is already of scope <strong>prototype</strong>.</p>
+</div>
+
 <p>To get the engine and fires rules, you can use the following snippet:</p>
 <div class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">ApplicationContext</span> <span class="n">context</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">ClassPathXmlApplicationContext</span><span class="o">(</span><span class="s">&quot;application-context.xml&quot;</span><span class="o">);</span>
 <span class="n">RulesEngine</span> <span class="n">rulesEngine</span> <span class="o">=</span> <span class="o">(</span><span class="n">RulesEngine</span><span class="o">)</span> <span class="n">context</span><span class="o">.</span><span class="na">getBean</span><span class="o">(</span><span class="s">&quot;rulesEngine&quot;</span><span class="o">);</span>
 
 <span class="n">rulesEngine</span><span class="o">.</span><span class="na">fireRules</span><span class="o">();</span>
 </code></pre></div>
-<div class="note info">
+<div class="note">
   <h5>Hint:</h5>
-  <p>The main advantage of using Easy Rules with Spring is the ability to register/unregister rules through the Xml configuration 
+  <p>The main advantage of using Easy Rules with Spring is the ability to register/unregister rules through the Xml configuration
      without recompiling your application.</p>
 </div>
 
@@ -129,18 +135,18 @@ As you can see, this factory bean is the main entry point to configure:</p>
 
           <div class="section-nav">
   <div class="left align-right">
-    
+
       <a href="http://www.easyrules.org/user-guide/scheduling-rules-engine.html" class="prev">
         Back
       </a>
-    
+
   </div>
   <div class="right align-left">
-    
+
       <a href="http://www.easyrules.org/tutorials/hello-world.html" class="next">
         Next
       </a>
-    
+
   </div>
   <div class="clear"></div>
 </div>
@@ -261,4 +267,3 @@ As you can see, this factory bean is the main entry point to configure:</p>
 </body>
 
 </html>
-
